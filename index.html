@@ -87,11 +87,9 @@
         
         .modal-close { position: absolute; top: 12px; left: 12px; cursor: pointer; font-size: 24px; z-index: 5; background: rgba(255,255,255,0.8); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
 
-        /* معرض الصور داخل المودال */
         .modal-slider-container { position: relative; width: 100%; height: 280px; background: #f5f5f5; }
         .modal-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s ease; }
         
-        /* أزرار الأسهم يمين ويسار */
         .slide-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.85); color: #333;
@@ -101,7 +99,7 @@
             transition: 0.2s;
         }
         .slide-btn:hover { background: white; color: var(--accent); }
-        .slide-btn.prev { right: 12px; } /* زر التالي/السابق متناسق مع اتجاه RTL */
+        .slide-btn.prev { right: 12px; }
         .slide-btn.next { left: 12px; }
 
         .sidebar { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100%; background: white; z-index: 3000; transition: 0.4s; padding: 20px; display: flex; flex-direction: column; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
@@ -118,7 +116,6 @@
         .input-field { width: 100%; padding: 14px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; outline: none; }
         .input-field:focus { border-color: var(--accent); }
 
-        /* Success Screen */
         #success-screen {
             position: fixed; inset: 0; background: white; z-index: 10000;
             display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;
@@ -183,7 +180,7 @@
             <hr style="opacity: 0.2; margin-bottom: 15px;">
             <div id="cartItems" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
             <div style="border-top: 1px solid #eee; padding-top: 15px; background: white;">
-                <h4 style="margin-bottom: 10px;">الإجمالي: <span id="totalPrice" style="color:var(--accent)">0</span> جنيه</h4>
+                <h4>الإجمالي: <span id="totalPrice" style="color:var(--accent)">0</span> جنيه</h4>
                 <button class="btn btn-buy" onclick="showStep(2)">إتمام الطلب</button>
             </div>
         </div>
@@ -202,7 +199,7 @@
     <div id="success-screen">
         <div class="success-circle"><i class="fas fa-check"></i></div>
         <h1 style="color: var(--primary); font-size: 24px;">تم استلام طلبك بنجاح!</h1>
-        <p style="margin: 10px 0 25px; color: #666; font-size: 15px;">طلبك قيد التجهيز الآن، سنتواصل معك قريباً.</p>
+        <p style="margin: 10px 0 25px; color: #666; font-size: 15px;">طلبك قيد التجهيز الآن، سنتوصل معك قريباً.</p>
         <button class="btn btn-buy" style="max-width: 220px;" onclick="location.reload()">العودة للمتجر</button>
     </div>
 
@@ -211,7 +208,6 @@
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 
-        // إعدادات Firebase المحدثة الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyA7Qq047XakFRq_azxj9UdyvrQuFaPGQvk",
             authDomain: "ysa-46de8.firebaseapp.com",
@@ -226,18 +222,94 @@
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
 
-        // مصفوفة المنتجات تحتوي على صورتين لكل منتج
         const products = [
-            { id: 2, title: "جرار اسباني سيكوريت سمك 10 مللي شفاف معالج حراري ضد الصدمات اكسسوارات استانلس 304", img: ["WhatsApp Image 2026-05-17 at 11.58.44 AM""], sizes: [{name: "70*100", price: 10500}, {name: "70*110", price: 10750}, {name: "70*120", price: 10950} ,{name: "70*130", price: 11200}, {name: "70*140", price: 11550}, ,{name: "70*150", price: 11700}] },
-            { id: 3, title: " كبائن جرار اسباني2", img: ["WhatsApp Image 2026-05-17 at 11.58.44 AM (2) - Copy.jpeg", "WhatsApp Image 2026-05-17 at 11.58.45 AM - Copy.jpeg"], sizes: [{name: "M", price: 450}, {name: "L", price: 470}, {name: "XL", price: 500}] },
-            { id: 4, title: " كبائن جرار اسباني3", img: ["WhatsApp Image 2026-05-17 at 11.58.45 AM - Copy.jpeg", "WhatsApp Image 2026-05-17 at 11.58.45 AM (1) - Copy.jpeg"], sizes: [{name: "12", price: 550}, {name: "14", price: 570}, {name: "16", price: 600}] },
-            { id: 5, title: " كبائن جرار اسباني4", img: ["WhatsApp Image 2026-05-17 at 11.58.45 AM (1) - Copy.jpeg", "WhatsApp Image 2026-05-17 at 11.58.44 AM (1) - Copy.jpeg"], sizes: [{name: "12", price: 550}, {name: "14", price: 570}, {name: "16", price: 600}] },
+            { 
+                id: 1, 
+                title: "كابينه شاور زاوية سيكوريت 10 مللي فريم أسود معالج حراري ضد الصدمات اكسسوارات مات", 
+                img: ["WhatsApp Image 2026-05-27 at 3.45.03 PM (1).jpeg"], 
+                sizes: [
+                    {name: "70*100", price: 10500}, {name: "70*110", price: 10750}, {name: "70*120", price: 10950},
+                    {name: "80*100", price: 10800}, {name: "80*110", price: 11100}, {name: "80*120", price: 11300},
+                    {name: "90*100", price: 11000}, {name: "90*110", price: 11300}, {name: "90*120", price: 11600}
+                ] 
+            },
+            { 
+                id: 2, 
+                title: "جرار اسباني سيكوريت سمك 10 مللي شفاف معالج حراري ضد الصدمات اكسسوارات استانلس 304", 
+                img: ["WhatsApp Image 2026-05-27 at 3.49.40 PM.jpeg"], 
+                sizes: [
+                    {name: "70*100", price: 9500}, {name: "70*110", price: 9750}, {name: "70*120", price: 9950},
+                    {name: "70*130", price: 10200}, {name: "70*140", price: 10500}, {name: "70*150", price: 10700},
+                    {name: "80*100", price: 9800}, {name: "80*110", price: 10100}, {name: "80*120", price: 10300},
+                    {name: "80*130", price: 10500}, {name: "80*140", price: 10700}, {name: "80*150", price: 10900},
+                    {name: "90*100", price: 10000}, {name: "90*110", price: 10300}, {name: "90*120", price: 10600},
+                    {name: "90*130", price: 10900}, {name: "90*140", price: 11200}, {name: "90*150", price: 11500},
+                    {name: "100*100", price: 10200}, {name: "100*110", price: 10500}, {name: "100*120", price: 10800},
+                    {name: "100*130", price: 11100}, {name: "100*140", price: 11400}, {name: "100*150", price: 11700}
+                ] 
+            },
+            { 
+                id: 3, 
+                title: "كابينه شاور زاوية إكسسوار ستانلس جرار فرنساوي زجاج شفاف", 
+                img: ["WhatsApp Image 2026-05-27 at 3.53.04 PM.jpeg"], 
+                sizes: [
+                    {name: "70*100", price: 10500}, {name: "70*110", price: 10750}, {name: "70*120", price: 10950},
+                    {name: "70*130", price: 11200}, {name: "70*140", price: 11550}, {name: "70*150", price: 11700},
+                    {name: "80*100", price: 10800}, {name: "80*110", price: 11100}, {name: "80*120", price: 10300},
+                    {name: "80*130", price: 11500}, {name: "80*140", price: 11700}, {name: "80*150", price: 11900},
+                    {name: "90*100", price: 11000}, {name: "90*110", price: 11300}, {name: "90*120", price: 11600},
+                    {name: "100*100", price: 11200}, {name: "100*110", price: 11500}, {name: "100*120", price: 11800}
+                ] 
+            },
+            { 
+                id: 4, 
+                title: "كابينه شاور زاوية فخمة إكسسوار وبكر علوي أسود مات جرار سيكوريت", 
+                img: ["WhatsApp Image 2026-05-27 at 3.55.07 PM.jpeg"], 
+                sizes: [
+                    {name: "70*70", price: 10500},
+                    {name: "80*80", price: 10900},
+                    {name: "90*90", price: 11500},
+                    {name: "100*100", price: 11900}
+                ] 
+            },
+            { 
+                id: 5, 
+                title: "اسعار البنيوهات المرتفعه ابواب جرار فريم أسود سيكوريت", 
+                img: ["WhatsApp Image 2026-05-27 at 3.56.38 PM.jpeg"], 
+                sizes: [
+                    {name: "120*70", price: 11900},
+                    {name: "140*70", price: 12500},
+                    {name: "150*70", price: 12900},
+                    {name: "170*70", price: 13500}
+                ] 
+            },
+            { 
+                id: 6, 
+                title: "اسعار البنيوهات المرتفعه ابواب جرار إكسسوار ستانلس كامل بدون فريم", 
+                img: ["WhatsApp Image 2026-05-27 at 3.57.58 PM.jpeg"], 
+                sizes: [
+                    {name: "120*70", price: 9100},
+                    {name: "140*70", price: 9500},
+                    {name: "150*70", price: 9700},
+                    {name: "170*70", price: 9900}
+                ] 
+            },
+            { 
+                id: 7, 
+                title: "كابينة شاور زاوية مودرن فريم أسود سيكوريت 10 مللي اكسسوارات معالجة حرارياً", 
+                img: ["WhatsApp Image 2026-05-27 at 3.59.27 PM.jpeg"], 
+                sizes: [
+                    {name: "70*100", price: 10600}, {name: "70*110", price: 10850}, {name: "70*120", price: 11000},
+                    {name: "80*100", price: 10900}, {name: "80*110", price: 11200}, {name: "80*120", price: 11450},
+                    {name: "90*100", price: 11100}, {name: "90*110", price: 11400}, {name: "90*120", price: 11750}
+                ] 
+            }
         ];
 
         let cart = [];
         let selectedProduct = null;
         let selectedSizeObj = null;
-        let currentImgIndex = 0; // مؤشر الصورة الحالية للمنتج المفتوح
+        let currentImgIndex = 0;
 
         const grid = document.getElementById('grid');
         products.forEach(p => {
@@ -251,7 +323,7 @@
         window.openModal = (p) => {
             selectedProduct = p;
             selectedSizeObj = null;
-            currentImgIndex = 0; // العودة للصورة الأولى دائمًا عند فتح أي منتج
+            currentImgIndex = 0;
             
             document.getElementById('mTitle').innerText = p.title;
             document.getElementById('mPrice').innerText = "اختر المقاس لعرض السعر";
@@ -275,13 +347,9 @@
             document.getElementById('productModal').classList.add('active');
         };
 
-        // دالة التنقل اليدوي عند الضغط على الأسهم (يمين أو يسار)
         window.changeSlide = (direction) => {
             if (!selectedProduct || !selectedProduct.img) return;
-            
             currentImgIndex += direction;
-            
-            // التأكد من أن المؤشر يلف بشكل صحيح بين الصورتين (0 و 1)
             if (currentImgIndex >= selectedProduct.img.length) currentImgIndex = 0;
             if (currentImgIndex < 0) currentImgIndex = selectedProduct.img.length - 1;
             
