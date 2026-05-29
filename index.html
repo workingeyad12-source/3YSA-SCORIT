@@ -109,8 +109,8 @@
         .btn-buy { background: var(--primary); color: white; }
         .btn-buy:hover { opacity: 0.9; }
 
-        .sizes-container { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
-        .size-btn { padding: 10px 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; border-radius: 6px; font-size: 15px; font-weight: 600; min-width: 55px; transition: 0.2s; }
+        .sizes-container { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; max-height: 200px; overflow-y: auto; padding: 5px; border: 1px solid #eee; border-radius: 6px; }
+        .size-btn { padding: 8px 14px; border: 1px solid #ddd; background: #fff; cursor: pointer; border-radius: 6px; font-size: 14px; font-weight: 600; min-width: 75px; transition: 0.2s; }
         .size-btn.selected { background: var(--accent); color: white; border-color: var(--accent); }
 
         .input-field { width: 100%; padding: 14px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; outline: none; }
@@ -161,9 +161,9 @@
             </div>
 
             <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                <h2 id="mTitle" style="font-size: 20px; margin-bottom: 5px;"></h2>
+                <h2 id="mTitle" style="font-size: 18px; margin-bottom: 5px; line-height: 1.4;"></h2>
                 <h3 id="mPrice" style="color: var(--accent); margin-bottom: 15px; font-size: 18px;"></h3>
-                <p style="font-weight: 600; color: #666;">اختر المقاس المتاح:</p>
+                <p style="font-weight: 600; color: #666; font-size: 14px; margin-bottom: 5px;">اختر المقاس المتاح:</p>
                 <div id="mSizes" class="sizes-container"></div>
                 <button class="btn btn-buy" onclick="addToCart()">إضافة للسلة</button>
             </div>
@@ -225,8 +225,27 @@
         const products = [
             { 
                 id: 1, 
+                title: "جرار اسباني سيكوريت سمك 10 مللي شفاف معالج حراري ضد الصدمات اكسسوارات استانلس 304", 
+                img: ["WhatsApp Image 2026-05-27 at 3.49.40 PM.jpeg"], 
+                sizes: [
+                    {name: "70*70", price: 10500},
+                    {name: "100*70", price: 9500}, {name: "110*70", price: 9750}, {name: "120*70", price: 9950},
+                    {name: "130*70", price: 10200}, {name: "140*70", price: 10500}, {name: "150*70", price: 10700},
+                    {name: "80*80", price: 10900},
+                    {name: "100*80", price: 9800}, {name: "110*80", price: 10100}, {name: "120*80", price: 10300},
+                    {name: "130*80", price: 10500}, {name: "140*80", price: 10700}, {name: "150*80", price: 10900},
+                    {name: "90*90", price: 11500},
+                    {name: "100*90", price: 10000}, {name: "110*90", price: 10300}, {name: "120*90", price: 10600},
+                    {name: "130*90", price: 10900}, {name: "140*90", price: 11200}, {name: "150*90", price: 11500},
+                    {name: "100*100", price: 11900},
+                    {name: "110*100", price: 10500}, {name: "120*100", price: 10800},
+                    {name: "130*100", price: 11100}, {name: "140*100", price: 11400}, {name: "150*100", price: 11700}
+                ] 
+            },
+            { 
+                id: 2, 
                 title: "كابينه شاور زاوية سيكوريت 10 مللي فريم أسود معالج حراري ضد الصدمات اكسسوارات مات", 
-                img: ["WhatsApp Image 2026-05-27 at 3.45.03 PM (1).jpeg"], 
+                img: ["WhatsApp Image 2026-05-27 at 3.45.03 PM (1).jpeg", "WhatsApp Image 2026-05-29 at 12.29.46 PM.jpeg"], 
                 sizes: [
                     {name: "70*100", price: 10500}, {name: "70*110", price: 10750}, {name: "70*120", price: 10950},
                     {name: "80*100", price: 10800}, {name: "80*110", price: 11100}, {name: "80*120", price: 11300},
@@ -234,58 +253,45 @@
                 ] 
             },
             { 
-                id: 2, 
-                title: "جرار اسباني سيكوريت سمك 10 مللي شفاف معالج حراري ضد الصدمات اكسسوارات استانلس 304", 
-                img: ["WhatsApp Image 2026-05-27 at 3.49.40 PM.jpeg"], 
-                sizes: [
-                    {name: "70*100", price: 9500}, {name: "70*110", price: 9750}, {name: "70*120", price: 9950},
-                    {name: "70*130", price: 10200}, {name: "70*140", price: 10500}, {name: "70*150", price: 10700},
-                    {name: "80*100", price: 9800}, {name: "80*110", price: 10100}, {name: "80*120", price: 10300},
-                    {name: "80*130", price: 10500}, {name: "80*140", price: 10700}, {name: "80*150", price: 10900},
-                    {name: "90*100", price: 10000}, {name: "90*110", price: 10300}, {name: "90*120", price: 10600},
-                    {name: "90*130", price: 10900}, {name: "90*140", price: 11200}, {name: "90*150", price: 11500},
-                    {name: "100*100", price: 10200}, {name: "100*110", price: 10500}, {name: "100*120", price: 10800},
-                    {name: "100*130", price: 11100}, {name: "100*140", price: 11400}, {name: "100*150", price: 11700}
-                ] 
-            },
-            { 
                 id: 3, 
-                title: "كابينه شاور زاوية إكسسوار ستانلس جرار فرنساوي زجاج شفاف", 
-                img: ["WhatsApp Image 2026-05-27 at 3.53.04 PM.jpeg"], 
+                title: "كابينه باب واحد جرار فرنساوي", 
+                img: ["WhatsApp Image 2026-05-27 at 3.53.04 PM.jpeg", "WhatsApp Image 2026-05-29 at 12.28.52 PM.jpeg"], 
                 sizes: [
-                    {name: "70*100", price: 10500}, {name: "70*110", price: 10750}, {name: "70*120", price: 10950},
-                    {name: "70*130", price: 11200}, {name: "70*140", price: 11550}, {name: "70*150", price: 11700},
-                    {name: "80*100", price: 10800}, {name: "80*110", price: 11100}, {name: "80*120", price: 10300},
-                    {name: "80*130", price: 11500}, {name: "80*140", price: 11700}, {name: "80*150", price: 11900},
-                    {name: "90*100", price: 11000}, {name: "90*110", price: 11300}, {name: "90*120", price: 11600},
-                    {name: "100*100", price: 11200}, {name: "100*110", price: 11500}, {name: "100*120", price: 11800}
+                    {name: "100*70", price: 10500}, {name: "110*70", price: 10750}, {name: "120*70", price: 10950},
+                    {name: "130*70", price: 11200}, {name: "140*70", price: 11550}, {name: "150*70", price: 11700},
+                    {name: "100*80", price: 10800}, {name: "110*80", price: 11100}, {name: "120*80", price: 11300},
+                    {name: "130*80", price: 11500}, {name: "140*80", price: 11700}, {name: "150*80", price: 11900},
+                    {name: "100*90", price: 11000}, {name: "110*90", price: 11300}, {name: "120*90", price: 11600},
+                    {name: "130*90", price: 11900}, {name: "140*90", price: 12200}, {name: "150*90", price: 12500},
+                    {name: "100*100", price: 11200}, {name: "110*100", price: 11500}, {name: "120*100", price: 11800},
+                    {name: "130*100", price: 12100}, {name: "140*100", price: 12400}, {name: "150*100", price: 12700}
                 ] 
             },
             { 
                 id: 4, 
-                title: "كابينه شاور زاوية فخمة إكسسوار وبكر علوي أسود مات جرار سيكوريت", 
-                img: ["WhatsApp Image 2026-05-27 at 3.55.07 PM.jpeg"], 
+                title: "اثنين باب جرار فرنساوي", 
+                img: ["WhatsApp Image 2026-05-27 at 3.55.07 PM.jpeg", "WhatsApp Image 2026-05-29 at 12.29.46 PM (1).jpeg"], 
                 sizes: [
-                    {name: "70*70", price: 10500},
-                    {name: "80*80", price: 10900},
-                    {name: "90*90", price: 11500},
-                    {name: "100*100", price: 11900}
+                    {name: "70*70", price: 11900},
+                    {name: "80*80", price: 12500},
+                    {name: "90*90", price: 12900},
+                    {name: "100*100", price: 13500}
                 ] 
             },
             { 
                 id: 5, 
-                title: "اسعار البنيوهات المرتفعه ابواب جرار فريم أسود سيكوريت", 
+                title: "اسعار البنيوهات المرتفعه ابواب جرار فرنساوي", 
                 img: ["WhatsApp Image 2026-05-27 at 3.56.38 PM.jpeg"], 
                 sizes: [
-                    {name: "120*70", price: 11900},
-                    {name: "140*70", price: 12500},
-                    {name: "150*70", price: 12900},
-                    {name: "170*70", price: 13500}
+                    {name: "120*70", price: 10100},
+                    {name: "140*70", price: 10500},
+                    {name: "150*70", price: 10700},
+                    {name: "170*70", price: 10900}
                 ] 
             },
             { 
                 id: 6, 
-                title: "اسعار البنيوهات المرتفعه ابواب جرار إكسسوار ستانلس كامل بدون فريم", 
+                title: "اسعار البنيوهات المرتفعه ابواب جرار اسباني", 
                 img: ["WhatsApp Image 2026-05-27 at 3.57.58 PM.jpeg"], 
                 sizes: [
                     {name: "120*70", price: 9100},
@@ -302,6 +308,18 @@
                     {name: "70*100", price: 10600}, {name: "70*110", price: 10850}, {name: "70*120", price: 11000},
                     {name: "80*100", price: 10900}, {name: "80*110", price: 11200}, {name: "80*120", price: 11450},
                     {name: "90*100", price: 11100}, {name: "90*110", price: 11400}, {name: "90*120", price: 11750}
+                ] 
+            },
+            { 
+                id: 8, 
+                title: "اسعار البارتيشنات الثابته سيكوريت 10 مللي فريم في الكامل", 
+                img: ["WhatsApp Image 2026-05-29 at 12.28.52 PM.jpeg"], 
+                sizes: [
+                    {name: "70*200", price: 4400},
+                    {name: "80*200", price: 4600},
+                    {name: "90*200", price: 4800},
+                    {name: "100*200", price: 5000},
+                    {name: "110*200", price: 5200}
                 ] 
             }
         ];
