@@ -3,47 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شركة سيكوريت العيسي</title>
+    <title>شركة سيكوريت العيسي | عرض خاص</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --primary: #1a1a1a; --accent: #c5a059; --bg: #fdfbf7; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; padding-top: 80px; }
-        header { background: white; padding: 15px 5%; position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 100; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-        .card { background: white; padding: 10px; border-radius: 10px; cursor: pointer; border: 1px solid #eee; }
-        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 20px; width: 90%; max-width: 400px; border-radius: 10px; }
-        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; cursor: pointer; margin-top: 10px; border-radius: 5px; }
-        .sidebar { position: fixed; top: 0; right: -100%; width: 300px; height: 100%; background: white; padding: 20px; transition: 0.4s; z-index: 2000; box-shadow: -5px 0 10px rgba(0,0,0,0.1); }
+        :root { --primary: #1a1a1a; --accent: #c5a059; --bg: #fdfbf7; --text: #2c2c2c; --success: #27ae60; --font-main: 'Cairo', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-main); }
+        body { background-color: var(--bg); color: var(--text); }
+        header { background: white; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 22px; font-weight: 700; }
+        .logo span { color: var(--accent); }
+        .cart-icon { position: relative; font-size: 20px; cursor: pointer; }
+        .cart-count { position: absolute; top: -5px; right: -10px; background: var(--accent); color: white; font-size: 11px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .container { max-width: 1200px; margin: 85px auto 40px; padding: 0 15px; }
+        .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .product-card { background: white; border: 1px solid #eee; border-radius: 8px; overflow: hidden; cursor: pointer; text-align: center; padding-bottom: 10px; }
+        .product-img { width: 100%; height: 200px; object-fit: cover; }
+        .modal, .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; z-index: 2000; justify-content: center; align-items: center; }
+        .modal.active, .sidebar-overlay.active { display: flex; }
+        .modal-content { background: white; width: 90%; max-width: 500px; padding: 20px; border-radius: 12px; position: relative; }
+        .sidebar { position: fixed; top: 0; right: -100%; width: 350px; height: 100%; background: white; z-index: 3000; transition: 0.4s; padding: 20px; overflow-y: auto; }
+        .sidebar.active { right: 0; }
+        .btn { width: 100%; padding: 14px; border: none; cursor: pointer; background: var(--primary); color: white; border-radius: 6px; font-size: 16px; margin-top: 10px; }
+        .size-btn { padding: 8px 12px; border: 1px solid #ddd; margin: 5px; cursor: pointer; border-radius: 4px; }
+        .size-btn.selected { background: var(--accent); color: white; }
+        .input-field { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        #success-screen { position: fixed; inset: 0; background: white; z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     </style>
 </head>
 <body>
 
     <header>
-        <h3>سيكوريت العيسي</h3>
-        <button onclick="document.getElementById('sidebar').style.right='0'">السلة (<span id="cartCount">0</span>)</button>
+        <div class="logo">شركة سيكوريت <span>العيسي</span></div>
+        <div class="cart-icon" onclick="document.getElementById('sidebar').classList.add('active')">
+            <i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartCount">0</span>
+        </div>
     </header>
 
-    <div class="grid" id="grid"></div>
+    <div class="container"><div class="products-grid" id="grid"></div></div>
 
-    <div id="modal" class="modal">
+    <div class="modal" id="productModal">
         <div class="modal-content">
-            <h3 id="mTitle"></h3>
-            <div id="sizes"></div>
+            <h2 id="mTitle"></h2>
+            <div id="mSizes" style="display:flex; flex-wrap:wrap; margin:15px 0;"></div>
             <button class="btn" onclick="addToCart()">إضافة للسلة</button>
-            <button class="btn" style="background:#666" onclick="document.getElementById('modal').style.display='none'">إغلاق</button>
+            <button class="btn" style="background:#666" onclick="document.getElementById('productModal').classList.remove('active')">إغلاق</button>
         </div>
     </div>
 
-    <div id="sidebar" class="sidebar">
+    <div class="sidebar" id="sidebar">
         <h3>سلة الطلبات</h3>
         <div id="cartItems"></div>
-        <input type="text" id="uName" placeholder="الاسم" style="width:100%; padding:10px; margin:5px 0;">
-        <input type="tel" id="uPhone" placeholder="رقم الموبايل" style="width:100%; padding:10px; margin:5px 0;">
+        <input type="text" id="uName" class="input-field" placeholder="الاسم">
+        <input type="tel" id="uPhone" class="input-field" placeholder="رقم الهاتف">
         <button class="btn" onclick="sendOrder()">تأكيد الطلب</button>
-        <button class="btn" style="background:#ff4757" onclick="document.getElementById('sidebar').style.right='-100%'">إغلاق</button>
+        <button class="btn" style="background:#ff4757" onclick="document.getElementById('sidebar').classList.remove('active')">إغلاق</button>
     </div>
+
+    <div id="success-screen"><h1>تم الطلب بنجاح!</h1><button class="btn" onclick="location.reload()">العودة</button></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
@@ -55,41 +73,51 @@
         }));
 
         const products = [
-            { id: 1, title: "جرار اسباني سيكوريت", img: "5.jpg", price: 9500 },
-            { id: 2, title: "كابينة فرنسي", img: "6.jpg", price: 10500 }
+            { id: 1, title: "جرار اسباني سيكوريت 10 مللي", img: "1.jpg", sizes: [{name: "100*70", price: 9500}, {name: "120*70", price: 9950}] },
+            { id: 2, title: "كابينه باب واحد جرار فرنساوي", img: "2.jpg", sizes: [{name: "100*70", price: 10500}, {name: "120*70", price: 10950}] },
+            { id: 3, title: "كابينه باب واتنين باب جرار اسباني", img: "3.jpg", sizes: [{name: "100*70", price: 10500}, {name: "120*70", price: 10950}] },
+            { id: 4, title: "كابينه اثنين باب جرار اسباني", img: "4.jpg", sizes: [{name: "70*70", price: 11900}, {name: "100*100", price: 13500}] },
+            { id: 5, title: "كابينه باب جرار فرنساوي ع بانيو", img: "5.jpg", sizes: [{name: "120*70", price: 10100}, {name: "170*70", price: 10900}] },
+            { id: 6, title: "كابينه باب جرار اسباني ع بانيو", img: "6.jpg", sizes: [{name: "120*70", price: 9100}, {name: "170*70", price: 9900}] },
+            { id: 7, title: "كابينة شاور زاوية مودرن", img: "7.jpg", sizes: [{name: "70*100", price: 10600}, {name: "90*120", price: 11750}] },
+            { id: 8, title: "بارتيشن ثابت سيكوريت 10 مللي", img: "8.jpg", sizes: [{name: "70*200", price: 4400}, {name: "110*200", price: 5200}] }
         ];
 
-        let cart = [];
-        let selectedProduct = null;
+        let cart = [], activeP = null, activeS = null;
 
-        // عرض المنتجات
         const grid = document.getElementById('grid');
         products.forEach(p => {
-            let div = document.createElement('div');
-            div.className = 'card';
-            div.innerHTML = `<img src="${p.img}"><h4>${p.title}</h4>`;
-            div.onclick = () => { selectedProduct = p; document.getElementById('mTitle').innerText = p.title; document.getElementById('modal').style.display = 'flex'; };
-            grid.appendChild(div);
+            let d = document.createElement('div');
+            d.className = 'product-card';
+            d.innerHTML = `<img src="${p.img}" class="product-img"><h4>${p.title}</h4>`;
+            d.onclick = () => {
+                activeP = p; activeS = null;
+                document.getElementById('mTitle').innerText = p.title;
+                const mS = document.getElementById('mSizes'); mS.innerHTML = '';
+                p.sizes.forEach(s => {
+                    let b = document.createElement('span');
+                    b.className = 'size-btn'; b.innerText = s.name;
+                    b.onclick = () => { document.querySelectorAll('.size-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); activeS = s; };
+                    mS.appendChild(b);
+                });
+                document.getElementById('productModal').classList.add('active');
+            };
+            grid.appendChild(d);
         });
 
-        // إضافة للسلة
         window.addToCart = () => {
-            cart.push(selectedProduct);
+            if(!activeS) return alert("اختر المقاس أولاً");
+            cart.push({ title: activeP.title, size: activeS.name, price: activeS.price });
             document.getElementById('cartCount').innerText = cart.length;
-            document.getElementById('modal').style.display = 'none';
-            alert("تمت الإضافة!");
+            document.getElementById('cartItems').innerHTML += `<p>${activeP.title} - ${activeS.name}</p>`;
+            document.getElementById('productModal').classList.remove('active');
         };
 
-        // إرسال الطلب
         window.sendOrder = async () => {
-            await addDoc(collection(db, "orders"), {
-                name: document.getElementById('uName').value,
-                phone: document.getElementById('uPhone').value,
-                cart: cart,
-                time: new Date()
-            });
-            alert("تم استلام طلبك بنجاح!");
-            document.getElementById('sidebar').style.right = '-100%';
+            const name = document.getElementById('uName').value, phone = document.getElementById('uPhone').value;
+            if(!name || !phone) return alert("أكمل البيانات");
+            await addDoc(collection(db, "orders"), { name, phone, cart, date: new Date() });
+            document.getElementById('success-screen').style.display = 'flex';
         };
     </script>
 </body>
