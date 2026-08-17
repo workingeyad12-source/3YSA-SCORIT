@@ -213,18 +213,18 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyA7Qq047XakFRq_azxj9UdyvrQuFaPGQvk",
-            authDomain: "ysa-46de8.firebaseapp.com",
-            projectId: "ysa-46de8",
-            storageBucket: "ysa-46de8.firebasestorage.app",
-            messagingSenderId: "817270465081",
-            appId: "1:817270465081:web:136259c5d706dddc12a3e8",
-            measurementId: "G-WWFED1ZECM"
+            apiKey: "AIzaSyBpWw1uYGN8S_7PDhHGg7ypbeqKuyziOAw",
+            authDomain: "websaid-d73f4.firebaseapp.com",
+            projectId: "websaid-d73f4",
+            storageBucket: "websaid-d73f4.firebasestorage.app",
+            messagingSenderId: "250873674207",
+            appId: "1:250873674207:web:8cc976334d55947ea8ac6a",
+            measurementId: "G-1LJ5NQMLEG"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -311,7 +311,6 @@
             { 
                 id: 8, 
                 title: "كابينه شاور وش فقط جرار فرنساوي ", 
-               
                 img: ["WhatsApp Image 2026-06-01 at 5.42.12 PM (4).jpeg", "WhatsApp Image 2026-06-01 at 5.42.12 PM (4).jpeg"], 
                 sizes : [
                     {name: "200*110", price: 8800}, {name: "200*120", price: 9100}, {name: "200*30", price: 9400},
@@ -321,7 +320,6 @@
             },
             { 
                 id: 9, 
-                
                 title: "بارتيشن ثابت سيكوريت 10 مللي", 
                 img: ["WhatsApp Image 2026-05-29 at 1.46.23 PM (7).jpeg", "WhatsApp Image 2026-05-29 at 1.46.23 PM (8).jpeg"], 
                 sizes: [
@@ -338,7 +336,7 @@
         let selectedSize = null;
         let currentSlideIndex = 0;
 
-        // 1. عpegرض المنتجات في الشبكة الرئيسية عند تحميل الصفحة
+        // 1. عرض المنتجات في الشبكة الرئيسية عند تحميل الصفحة
         const grid = document.getElementById('grid');
         products.forEach(product => {
             const minPrice = Math.min(...product.sizes.map(s => s.price));
